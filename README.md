@@ -52,6 +52,22 @@ in `[0,1]`:
 | Learning rate | Speed of adapting to new arguments |
 | Energy | Engagement level |
 
+```mermaid
+flowchart TB
+    Q["Question — e.g. ban smartphones in schools"] --> Init["Initialise agents — 10 psychological variables each, in 0..1"]
+    Init --> Round["Round — perception, cognition, intent emission, world resolution"]
+    Round --> Influence["Agents influence each other — reputation, momentum, anxiety shift"]
+    Influence --> Cascade{"Fragility over threshold?"}
+    Cascade -->|"Yes — Dev, rounds 4-5"| Crash["Cascade — emotional crash"]
+    Crash --> Recover{"Recovered?"}
+    Recover -->|"Yes — round 6"| Round
+    Recover -->|"No"| Round
+    Cascade -->|"No"| Converge{"Group converged?"}
+    Converge -->|"No — next round"| Round
+    Converge -->|"Yes — rounds 7-8"| Outcome["Outcome vector — reputation, inequality, trust, centralization"]
+    Outcome --> Analysis["Analysis — black-swan, counterfactual, game theory"]
+```
+
 The variables interact: a drop in self-worth can raise anxiety, lower
 consistency, hurt reputation, and pull others into a cascade. The kernel
 outputs a full `state_history` (all agents, all rounds) and an
@@ -94,6 +110,17 @@ and recovers from round 6. Nobody else crashes. Final outcome vector:
 | inequality | 0.069 |
 | trust_proxy | 0.714 |
 | centralization | 0.139 |
+
+![Seed-42 worked example — final outcome vector](docs/outcome-vector.png)
+
+*Final outcome vector for the seed-42 worked example: reputation 1.00,
+inequality 0.069, trust 0.714, centralization 0.139.*
+
+![Nyx seed-42 demo — per-agent reputation by round](docs/demo.gif)
+
+*The same run, animated: each agent's reputation round by round (seed 42,
+8 rounds). Dev cascades in rounds 4–5 and recovers from round 6.*
+
 
 Or any question, with the kernel directly:
 
